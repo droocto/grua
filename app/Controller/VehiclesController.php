@@ -9,13 +9,14 @@ class VehiclesController extends AppController
 	*
 	* @return void
 	*/
-	public function add()
+	public function add($vehicle_id = null)
 	{
 		// Carga el modelo Client para poder listar los nombres
 		$this->loadModel('Client');
 		$clientsName = $this->Client->find('list', array('fields' => 'name'));
 
 		$this->set('clientsName', $clientsName);
+		$this->set('vehicle_id', $vehicle_id);
 
 		if (!empty($this->data)) {
 			if(!$this->Vehicle->save($this->data)) {
@@ -23,7 +24,8 @@ class VehiclesController extends AppController
 				$this->redirect('/Vehicles/add');
 			} else {
 				$this->Session->setFlash('VEHICULO GUARDADO');
-				$this->redirect('/Vehicles/add');
+				//$this->redirect('/Vehicles/add');
+				$this->redirect('/Registrations/add/' . $this->data['Vehicle']['client_id'] . '/' . $this->Vehicle->id);
 			}
 		}
 	}
