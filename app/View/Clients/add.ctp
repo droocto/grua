@@ -5,7 +5,7 @@ $j(document).ready(function(){
 		var clientDocument = $j(this).val();
 
 		$j.getJSON(url + 'Clients/findDataClient/' + clientDocument, function(data){
-console.log(data);
+
 			$j("#documentType").val(data.type_document);
 			//$j("#documentClient").val(data.name);
 			$j("#nameClient").val(data.name);
