@@ -16,5 +16,12 @@ class Vehicle extends AppModel
             'foreignKey' => 'vehicle_id'
         )
     );
+
+    public $belongsTo = array(
+                            'TypeVehicle' => array(
+                                            'className' => 'TypeVehicle',
+                                            'foreignKey' => 'type_vehicle_id'
+                                        )
+                            );
 }
 ?>
