@@ -19,7 +19,8 @@ class ClientsController extends AppController
 				$this->redirect('/Clients/add');
 			} else {
 				$this->Session->setFlash('CLIENTE GUARDADO');
-				$this->redirect('/Clients/add');
+				//$this->redirect('/Clients/add');
+				$this->redirect('/Vehicles/add/' . $this->Client->id);
 			}
 		}
 	}
@@ -77,9 +78,51 @@ class ClientsController extends AppController
 											'recursive' => -1
 										)
 							);
-
  		 $clientResult = json_encode($clientData[0]['Client']);
 		 $this->set('clientResult',$clientResult);
+	}
+
+
+
+	/**
+	* Este método se utiliza para mostrar todos los datos del cliente en un formulario
+	*
+	* @param string $clientId id del cliente en la tabla
+	*
+	* @return void
+	*/
+
+	public function findDataClientId($clientId)
+	{
+		$this->layout = '';
+
+		$joins =  array(
+						array('table' => 'vehicles',
+							'alias' => 'Vehicle',
+							'type' => 'INNER',
+							'conditions' => array('Client.id = Vehicle.client_id')
+						)
+					);
+
+		$clientData = $this->Client->find('all', array(
+										'conditions' => array('Client.id' => $clientId),
+										'fields' => array(
+															'Client.type_document',
+															'Client.number_document',
+															'Client.name',
+															'Client.lastname',
+															'Vehicle.plate_vehicle',
+															'Vehicle.model_vehicle',
+															'Vehicle.type_vehicle'
+													),
+										//'recursive' => -1,
+										'joins' => $joins
+
+										)
+							);
+
+		$clientResult = json_encode($clientData[0]);
+		$this->set('clientResult',$clientResult);
 	}
 }
 ?>
