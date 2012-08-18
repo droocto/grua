@@ -18,8 +18,27 @@ class VehiclesController extends AppController
 		$this->set('clientsName', $clientsName);
 		$this->set('vehicle_id', $vehicle_id);
 
+        // Carga los tipos de vehículos como checkbox
+        $this->loadModel('TypeVehicle');
+        $typeVehicles = $this->TypeVehicle->find('list', array(
+                                                                'fields' => array(
+                                                                                  'TypeVehicle.type_vehicle_name'
+                                                                            ),
+                                                                'recursive' => -1
+                                                          )
+                                                );
+
+        $this->set('typeVehicles', $typeVehicles);
+
+
 		if (!empty($this->data)) {
-			if(!$this->Vehicle->save($this->data)) {
+            $data['Vehicle']['client_id'] = $this->data['Vehicle']['client_id'];
+            $data['Vehicle']['plate_vehicle'] = $this->data['Vehicle']['plate_vehicle'];
+            $data['Vehicle']['model_vehicle'] = $this->data['Vehicle']['model_vehicle'];
+            $data['Vehicle']['type_vehicle_id'] = $this->data['Vehicle']['type_vehicle_id'][0];
+            $data['Vehicle']['description_vehicle'] = $this->data['Vehicle']['description_vehicle'];
+$this->log($data);
+			if(!$this->Vehicle->save($data)) {
 				$this->Session->setFlash('** ERROR AL GUARDAR VEHICULO **');
 				$this->redirect('/Vehicles/add');
 			} else {
@@ -28,6 +47,8 @@ class VehiclesController extends AppController
 				$this->redirect('/Registrations/add/' . $this->data['Vehicle']['client_id'] . '/' . $this->Vehicle->id);
 			}
 		}
+
+
 	}
 
 
