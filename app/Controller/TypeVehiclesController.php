@@ -31,6 +31,69 @@ class TypeVehiclesController extends AppController
             $this->redirect('/TypeVehicles/add');
         }
     }
+
+
+
+    /**
+    * Permite listar los tipos de vehículos
+    *
+    * @return void
+    */
+    public function viewEditTypeVehicle()
+    {
+        $typeVehicleData = $this->TypeVehicle->find('all', array('recursive' => -1));
+        $this->set('typeVehicleData', $typeVehicleData);
+    }
+
+
+
+    /**
+    * Permite crear un array con las opciones que han sido seleccionadas solamente
+    * para poder crear una vista que muestra el nombre antiguo
+    *
+    * @return void
+    */
+
+    public function editTypeVehicleForm()
+    {
+        $typeVehicleData = array();
+
+        foreach ($this->data['TypeVehicle']['type_vehicle_id'] as $key => $row) {
+            if ($row != '0') {
+                $typeVehicleData[$key] = $row;
+            }
+        }
+
+        $this->set('typeVehicleData', $typeVehicleData);
+    }
+
+    
+
+
+    /**
+    * Permite editar el nombre de los tipos de vehículos
+    *
+    * @return void
+    */
+
+    public function edit () 
+    {
+        if (!empty($this->data)) {
+            foreach ($this->data['TypeVehicle'] as $typeVehicleId => $typeVehicleName) {
+
+                $this->TypeVehicle->id = $typeVehicleId;
+                if (!$this->TypeVehicle->saveField('type_vehicle_name', $typeVehicleName)) {
+                     $this->Session->setFlash('** ERROR EN LA ACTUALIZACION **');
+                }
+            }
+            $this->Session->setFlash('EL TIPO DE VEHICULO HA SIDO ACTUALIZADO');
+            $this->redirect('/TypeVehicles/viewEditTypeVehicle');
+            
+        }
+    }
+
+
+
 }
 ?>
 
