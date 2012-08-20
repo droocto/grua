@@ -37,7 +37,7 @@ class VehiclesController extends AppController
             $data['Vehicle']['model_vehicle'] = $this->data['Vehicle']['model_vehicle'];
             $data['Vehicle']['type_vehicle_id'] = $this->data['Vehicle']['type_vehicle_id'][0];
             $data['Vehicle']['description_vehicle'] = $this->data['Vehicle']['description_vehicle'];
-$this->log($data);
+
 			if(!$this->Vehicle->save($data)) {
 				$this->Session->setFlash('** ERROR AL GUARDAR VEHICULO **');
 				$this->redirect('/Vehicles/add');
