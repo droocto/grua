@@ -16,9 +16,5 @@ echo $this->Form->input('date_inscriptions', array('label' => 'Fecha de Inscripc
 echo $this->Form->input('date_monthly_payment', array('label' => 'Fecha Pago de Mensualidad'));
 echo $this->Form->input('price_cancel', array('type' => 'text', 'label' => 'Valor Cancelado'));
 
-//echo $this->Form->input('date_end_monthly_payment', array('type' => 'text', 'label' => 'Fecha Caduca Prestaci&oacute;n Servicio (AA/MM/DD)'));
-echo $this->Form->input('date_end_monthly_payment', array('label' => 'Fecha Caduca Prestaci&oacute;n Servicio (AA/MM/DD)'));
-echo $this->Form->input('amount_month_cancel', array('type' => 'text', 'label' => 'Cantidad de Meses Cancelados'));
-
 echo $this->Form->end('Guardar'); 
 ?>
