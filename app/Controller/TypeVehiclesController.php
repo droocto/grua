@@ -94,6 +94,36 @@ class TypeVehiclesController extends AppController
 
 
 
+    /**
+     *
+     * Este método borra el tipo de vehículo dependiendo si no existe un vehículo con su tipo de vehículo
+     *
+     * @param $id
+     *
+     * @return void
+     */
+    
+    public function del($id = null)
+    {
+        $typeVehicleData = $this->TypeVehicle->find('list', array(
+                                                                'fields' => array('TypeVehicle.type_vehicle_name'),
+                                                                'recursive' => -1)
+        );
+
+        $this->set('typeVehicleData', $typeVehicleData);
+
+        try{
+            if ($this->TypeVehicle->delete($id)) {
+                $this->Session->setFlash('TIPO VEHICULO BORRADO');
+                $this->redirect('/TypeVehicles/del');
+            }
+        } catch(Exception $e){
+            $this->Session->setFlash('EXISTE UN VEHICULO ASIGNADO A ESTE TIPO');
+        }
+    }
+
+
+
 }
 ?>
 
